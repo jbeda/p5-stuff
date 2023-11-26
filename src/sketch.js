@@ -1,3 +1,7 @@
+import './lib/p5.global';
+import 'p5/lib/addons/p5.sound';
+import './lib/p5.brush';
+
 // Exporting a function called 'mySketch'
 export const mySketch = (p) => {
   let maxSize = 500;
@@ -8,14 +12,20 @@ export const mySketch = (p) => {
   let r = 0;
   let hue = 0;
 
+  let monoSynth;
+
   // Calling p5.js functions, using the variable 'p'
   p.setup = () => {
     // Creating a canvas using the entire screen of the webpage
-    p.createCanvas(window.innerWidth, window.innerHeight);
+    let cnv = p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);
+    cnv.mousePressed(playSynth);
     p.strokeWeight(5);
     p.background(255);
 
     p.colorMode(p.HSB, 255);
+
+    p.getAudioContext().suspend();
+    monoSynth = new p5.MonoSynth();
   };
 
   p.draw = () => {
@@ -41,4 +51,18 @@ export const mySketch = (p) => {
   p.windowResized = () => {
     p.resizeCanvas(window.innerWidth, window.innerHeight);
   };
+
+  function playSynth() {
+    p.userStartAudio();
+
+    let note = p.random(['Fb4', 'G4']);
+    // note velocity (volume, from 0 to 1)
+    let velocity = p.random();
+    // time from now (in seconds)
+    let time = 0;
+    // note duration (in seconds)
+    let dur = 1 / 6;
+
+    monoSynth.play(note, velocity, time, dur);
+  }
 };

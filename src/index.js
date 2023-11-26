@@ -1,7 +1,10 @@
-// Import a module that was installed with npm
-import p5 from 'p5';
+import './lib/p5.global';
+//import 'spectral.js';
+//import './lib/p5.brush.wrapper.js';
+
 // Import a variable from a JavaScript file from the project folder
 import { mySketch } from './sketch.js';
+
 // Import CSS styles in JavaScript
 import './index.css';
 
